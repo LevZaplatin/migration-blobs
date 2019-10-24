@@ -5,7 +5,13 @@ A simple tool for migration of large objects from old PostgreSQL.
 ### Usage
 
 ```shell script
-python3 backup.py -H 127.0.0.1 -w -U pgsql -p 5432 -d app -o ./blobs/ -c 5000
+$ git clone git@github.com:LevZaplatin/migration_blobs.git
+$ cd migration_blobs/
+$ virtualenv .venv
+$ source .venv/bin/activate
+(.venv) $ pip install -r requirements.txt
+(.venv) $ python3 backup.py -H 127.0.0.1 -w -U pgsql -p 5432 -d app -o ./blobs/ -c 5000
+(.venv) $ python3 restore.py -H 127.0.0.1 -w -U pgsql -p 5432 -d app -o ./blobs/ -c 5000
 ```
 
 ### Output file
