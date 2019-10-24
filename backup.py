@@ -3,6 +3,7 @@ import argparse
 import logging
 import postgresql
 
+RIGHTS = '131072'
 SCHEMA = 'migration'
 TABLE_PY = 'py_largeobject'
 TABLE_PG = 'pg_largeobject'
@@ -125,7 +126,7 @@ while True:
             count = 0
             with open(path_filename, 'w') as dump_file:
                 dump_file.write(f"SELECT pg_catalog.lo_create('{blob}');\n")
-                dump_file.write(f"SELECT pg_catalog.lo_open('{blob}', 131072);\n")
+                dump_file.write(f"SELECT pg_catalog.lo_open('{blob}', '{RIGHTS}');\n")
                 for row in ps.rows(blob):
                     loid, pageno, data = row
                     logging.info(f'Save dump {loid}:{pageno}')
