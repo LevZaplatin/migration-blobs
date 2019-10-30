@@ -5,13 +5,13 @@ A simple tool for migration of large objects from old PostgreSQL.
 ### Usage
 
 ```shell script
-$ git clone git@github.com:LevZaplatin/migration_blobs.git
-$ cd migration_blobs/
+$ git clone git@github.com:LevZaplatin/migration-blobs.git
+$ cd migration-blobs/
 $ virtualenv .venv
 $ source .venv/bin/activate
 (.venv) $ pip install -r requirements.txt
-(.venv) $ python3 backup.py -H 127.0.0.1 -w -U pgsql -p 5432 -d app -o ./blobs/ -c 5000
-(.venv) $ python3 restore.py -H 127.0.0.1 -w -U pgsql -p 5432 -d app -o ./blobs/ -c 5000
+(.venv) $ python3 migration-blobs.py backup -H 127.0.0.1 -w -U pgsql -p 5432 -d app -o ./blobs/ -c 5000
+(.venv) $ python3 migration-blobs.py restore -H 127.0.0.1 -w -U pgsql -p 5432 -d app -o ./blobs/
 ```
 
 ### Output file
@@ -30,10 +30,14 @@ SELECT pg_catalog.lo_close(0);
 ### Help
 
 ```text
-usage: backup.py [-h] [-W PASSWORD] [-w] [-p PORT] [-c CHUNK] -H HOST -d
-                 DATABASE -U USER -o PATH
+usage: migration-blobs.py [-h] [-W PASSWORD] [-w] [-p PORT] [-v] -H HOST -d
+                          DATABASE -U USER -o PATH
+                          action
 
-Make backup (SQL) blobs
+Migration tool for generating SQL dump and restoring it
+
+positional arguments:
+  action                backup or restore
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -41,8 +45,7 @@ optional arguments:
                         PG password
   -w, --no-password     Empty password
   -p PORT, --port PORT  PG port (default: 5432)
-  -c CHUNK, --chunk CHUNK
-                        Chunk size (default: 1000)
+  -v, --verbose         Verbose mode
 
 required arguments:
   -H HOST, --host HOST  PG hostname
